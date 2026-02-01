@@ -1,6 +1,6 @@
 {
   "name": "mailpulse",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "Official SDK for Mailpulse - Email tracking and analytics",
   "author": "Lyten Agency",
   "license": "MIT",
@@ -60,11 +60,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lytenagency/mailpulse-sdk"
+    "url": "https://github.com/LytenAgency/mailpulse-sdk"
   },
   "homepage": "https://mailpulse-io.lyten.agency/docs/sdk",
   "bugs": {
-    "url": "https://github.com/lytenagency/mailpulse-sdk/issues"
+    "url": "https://github.com/LytenAgency/mailpulse-sdk/issues"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
