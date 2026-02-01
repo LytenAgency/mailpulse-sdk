@@ -1,0 +1,89 @@
+{
+  "name": "mailpulse",
+  "version": "1.0.0",
+  "description": "Official SDK for Mailpulse - Email tracking and analytics",
+  "author": "Lyten Agency",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react/index.d.ts",
+        "default": "./dist/react/index.js"
+      },
+      "require": {
+        "types": "./dist/react/index.d.cts",
+        "default": "./dist/react/index.cjs"
+      }
+    },
+    "./vue": {
+      "import": {
+        "types": "./dist/vue/index.d.ts",
+        "default": "./dist/vue/index.js"
+      },
+      "require": {
+        "types": "./dist/vue/index.d.cts",
+        "default": "./dist/vue/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "mailpulse",
+    "email",
+    "tracking",
+    "analytics",
+    "react",
+    "vue",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lytenagency/mailpulse-sdk"
+  },
+  "homepage": "https://mailpulse-io.lyten.agency/docs/sdk",
+  "bugs": {
+    "url": "https://github.com/lytenagency/mailpulse-sdk/issues"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3",
+    "vue": "^3.5.0"
+  }
+}
