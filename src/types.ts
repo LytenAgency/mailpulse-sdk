@@ -13,6 +13,28 @@ export interface RegisterEmailRequest {
   metadata?: Record<string, unknown>;
 }
 
+export interface SendEmailRequest {
+  from: string;
+  to: string | string[];
+  subject: string;
+  htmlContent: string;
+  replyTo?: string;
+  cc?: string | string[];
+  bcc?: string | string[];
+  campaignId?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface SendEmailResponse {
+  id: string;
+  emailTrackingId: string;
+  from: string;
+  to: string[];
+  subject: string;
+  links: TrackedLink[];
+  pixelUrl: string;
+}
+
 export interface TrackedLink {
   originalUrl: string;
   trackingId: string;

@@ -3,6 +3,8 @@ import {
   MailpulseConfig,
   RegisterEmailRequest,
   RegisterEmailResponse,
+  SendEmailRequest,
+  SendEmailResponse,
   TrackingStats,
   CampaignsResponse,
   CampaignDetails,
@@ -51,6 +53,13 @@ export class MailpulseClient {
 
   async registerEmail(data: RegisterEmailRequest): Promise<RegisterEmailResponse> {
     return this.request<RegisterEmailResponse>("/api/emails", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async sendEmail(data: SendEmailRequest): Promise<SendEmailResponse> {
+    return this.request<SendEmailResponse>("/api/send", {
       method: "POST",
       body: JSON.stringify(data),
     });

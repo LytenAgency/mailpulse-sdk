@@ -6,6 +6,8 @@ export {
   type MailpulseConfig,
   type RegisterEmailRequest,
   type RegisterEmailResponse,
+  type SendEmailRequest,
+  type SendEmailResponse,
   type TrackedLink,
   type TrackingStats,
   type Campaign,
