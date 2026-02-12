@@ -33,6 +33,7 @@ export interface SendEmailResponse {
   subject: string;
   links: TrackedLink[];
   pixelUrl: string;
+  badgeHtml?: string;
 }
 
 export interface TrackedLink {
@@ -45,6 +46,7 @@ export interface RegisterEmailResponse {
   emailTrackingId: string;
   links: TrackedLink[];
   pixelUrl: string;
+  badgeHtml?: string;
 }
 
 export interface TrackingStats {
