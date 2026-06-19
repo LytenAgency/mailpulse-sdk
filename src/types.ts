@@ -44,6 +44,8 @@ export interface TrackedLink {
 
 export interface RegisterEmailResponse {
   emailTrackingId: string;
+  /** Email HTML with tracking links and the open pixel already injected — ready to send. */
+  html: string;
   links: TrackedLink[];
   pixelUrl: string;
   badgeHtml?: string;

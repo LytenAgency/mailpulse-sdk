@@ -24,11 +24,11 @@ import { MailpulseClient } from 'mailpulse';
 
 const client = new MailpulseClient({
   apiKey: 'your-api-key',
-  baseUrl: 'https://mailpulse-io.lyten.agency', // optional, defaults to this
+  apiUrl: 'https://mailpulse-io.lyten.agency', // optional, defaults to this
 });
 
-// Track an email
-const result = await client.trackEmail({
+// Register an email for tracking
+const result = await client.registerEmail({
   htmlContent: '<html><body>Hello <a href="https://example.com">Click here</a></body></html>',
   recipient: 'user@example.com',
   subject: 'Welcome!',
@@ -36,8 +36,10 @@ const result = await client.trackEmail({
   metadata: { userId: '123' }, // optional
 });
 
-console.log(result.modifiedHtml); // HTML with tracking pixel and tracked links
-console.log(result.trackingId);   // Unique tracking ID
+// result.html is ready to send as-is: tracking links + open pixel already injected.
+// Send it with your own provider (Resend, SES, Nodemailer, ...).
+console.log(result.html);            // ready-to-send tracked HTML
+console.log(result.emailTrackingId); // unique tracking ID
 ```
 
 ## Framework Integrations
@@ -45,7 +47,7 @@ console.log(result.trackingId);   // Unique tracking ID
 ### React
 
 ```tsx
-import { MailpulseProvider, useMailpulse } from 'mailpulse/react';
+import { MailpulseProvider, useRegisterEmail } from 'mailpulse/react';
 
 // Wrap your app
 function App() {
@@ -58,15 +60,15 @@ function App() {
 
 // Use in components
 function EmailComposer() {
-  const { trackEmail, isLoading } = useMailpulse();
+  const { registerEmail, isLoading } = useRegisterEmail();
 
   const handleSend = async () => {
-    const result = await trackEmail({
+    const result = await registerEmail({
       htmlContent: emailHtml,
       recipient: 'user@example.com',
       subject: 'Hello!',
     });
-    // Send result.modifiedHtml via your email service
+    // Send result.html via your email service (tracking already injected)
   };
 
   return <button onClick={handleSend}>Send with Tracking</button>;
@@ -77,19 +79,19 @@ function EmailComposer() {
 
 ```vue
 <script setup>
-import { useMailpulse } from 'mailpulse/vue';
+import { provideMailpulse, useRegisterEmail } from 'mailpulse/vue';
 
-const { trackEmail, isLoading, error } = useMailpulse({
-  apiKey: 'your-api-key',
-});
+provideMailpulse({ apiKey: 'your-api-key' });
+
+const { registerEmail, isLoading, error } = useRegisterEmail();
 
 const sendEmail = async () => {
-  const result = await trackEmail({
+  const result = await registerEmail({
     htmlContent: emailHtml,
     recipient: 'user@example.com',
     subject: 'Hello!',
   });
-  // Send result.modifiedHtml via your email service
+  // Send result.html via your email service (tracking already injected)
 };
 </script>
 ```
@@ -103,13 +105,13 @@ const sendEmail = async () => {
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
 | `apiKey` | `string` | Yes | Your Mailpulse API key |
-| `baseUrl` | `string` | No | API base URL (default: `https://mailpulse-io.lyten.agency`) |
+| `apiUrl` | `string` | No | API base URL (default: `https://mailpulse-io.lyten.agency`) |
 
 #### Methods
 
-##### `trackEmail(options)`
+##### `registerEmail(options)`
 
-Adds tracking to an email and returns the modified HTML.
+Registers an email for tracking and returns the ready-to-send HTML, with tracking links rewritten and the open pixel already injected.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -123,11 +125,15 @@ Adds tracking to an email and returns the modified HTML.
 
 ```typescript
 {
-  modifiedHtml: string;  // HTML with tracking
-  trackingId: string;    // Unique tracking ID
-  recipient: string;     // Recipient email
-  subject: string;       // Email subject
-  linksTracked: number;  // Number of links tracked
+  emailTrackingId: string;  // Unique tracking ID for the email
+  html: string;             // Ready-to-send HTML (tracking links + open pixel injected)
+  links: Array<{            // The links that were rewritten
+    originalUrl: string;
+    trackingId: string;
+    trackingUrl: string;
+  }>;
+  pixelUrl: string;         // Open-tracking pixel URL (already embedded in `html`)
+  badgeHtml?: string;       // "Email analytics by Mailpulse" badge (free plans only)
 }
 ```
 
